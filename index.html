@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volunteer Portfolio</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* GLOBAL */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #f5f7fa, #e4ecf7);
+}
+
+/* HEADER */
+header {
+    position: relative;
+    text-align: center;
+    padding: 80px 20px 50px;
+    color: white;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('blood-bg.jpg') center/cover;
+    opacity: 0.35;
+    top: 0;
+    left: 0;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(179,0,0,0.85), rgba(255,77,77,0.85));
+    top: 0;
+    left: 0;
+}
+
+header * {
+    position: relative;
+    z-index: 1;
+}
+
+/* PROFILE */
+.profile-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 5px solid white;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    margin-top: 10px;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* CARD (GLASS EFFECT) */
+.card {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* STATS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.stat-box {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.stat-box:hover {
+    transform: scale(1.05);
+}
+
+.stat-box h3 {
+    color: #ff4d4d;
+    font-size: 26px;
+    margin: 5px 0;
+}
+
+/* BUTTON */
+button {
+    background: linear-gradient(135deg, #b30000, #ff4d4d);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    top: 0;
+}
+
+.modal img {
+    display: block;
+    margin: auto;
+    max-width: 85%;
+    margin-top: 60px;
+    border-radius: 10px;
+}
+
+/* SLIDER */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+.close {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1 id="name">Volunteer</h1>
+    <p>Active Blood Donation Volunteer</p>
+    <img id="photo" class="profile-img">
+    <p><b>Inspiring donors • Saving lives • Building community</b></p>
+</header>
+
+<div class="container">
+
+<div class="card">
+    <h2>Impact Overview</h2>
+    <div class="stats">
+        <div class="stat-box"><h3 id="donors">0</h3><p>Donors Brought</p></div>
+        <div class="stat-box"><h3 id="lives">0</h3><p>Lives Saved</p></div>
+        <div class="stat-box"><h3 id="hospitals">0</h3><p>Hospitals</p></div>
+        <div class="stat-box"><h3 id="camps">0</h3><p>Camps</p></div>
+        <div class="stat-box"><h3 id="emergency">0</h3><p>Emergency</p></div>
+        <div class="stat-box"><h3 id="motivated">0</h3><p>Motivated</p></div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Analytics Dashboard</h2>
+    <canvas id="impactChart"></canvas>
+</div>
+
+<div class="card" style="text-align:center;">
+    <button onclick="openCertificate()">View Certificates</button>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+    <span class="close" onclick="closeCertificate()">×</span>
+    <span class="slider-btn prev" onclick="prevSlide()">❮</span>
+    <img id="certImage">
+    <span class="slider-btn next" onclick="nextSlide()">❯</span>
+</div>
+
+<script>
+
+// SAME JS (unchanged logic)
+const volunteers = {
+    1: {
+        name: "Gariga Balakrishna",
+        donors: 25, lives: 100, hospitals: 4, camps: 5, emergency: 12, motivated: 40,
+        photo: "photo1.jpg",
+        certificates: ["cert1.png","cert2.png"]
+    }
+};
+
+let currentCertificates = [];
+let currentIndex = 0;
+
+function getIdFromURL() {
+    return new URLSearchParams(window.location.search).get("id");
+}
+
+function animateValue(id, end) {
+    let start = 0;
+    let timer = setInterval(() => {
+        start++;
+        document.getElementById(id).innerText = start;
+        if (start >= end) clearInterval(timer);
+    }, 20);
+}
+
+let chart;
+function loadChart(v) {
+    if (chart) chart.destroy();
+
+    chart = new Chart(document.getElementById("impactChart"), {
+        type: "bar",
+        data: {
+            labels: ["Donors","Lives","Hospitals","Camps","Emergency","Motivated"],
+            datasets: [{ data: [v.donors,v.lives,v.hospitals,v.camps,v.emergency,v.motivated] }]
+        },
+        options: { plugins: { legend: { display:false } } }
+    });
+}
+
+function loadVolunteer() {
+    const v = volunteers[getIdFromURL()];
+    if (!v) return;
+
+    document.getElementById("name").innerText = v.name;
+    document.getElementById("photo").src = v.photo;
+
+    animateValue("donors", v.donors);
+    animateValue("lives", v.lives);
+    animateValue("hospitals", v.hospitals);
+    animateValue("camps", v.camps);
+    animateValue("emergency", v.emergency);
+    animateValue("motivated", v.motivated);
+
+    loadChart(v);
+    currentCertificates = v.certificates;
+}
+
+function openCertificate() {
+    if (!currentCertificates.length) return;
+    currentIndex = 0;
+    showSlide();
+    document.getElementById("modal").style.display = "block";
+}
+
+function showSlide() {
+    document.getElementById("certImage").src = currentCertificates[currentIndex];
+}
+
+function nextSlide() {
+    currentIndex = (currentIndex + 1) % currentCertificates.length;
+    showSlide();
+}
+
+function prevSlide() {
+    currentIndex = (currentIndex - 1 + currentCertificates.length) % currentCertificates.length;
+    showSlide();
+}
+
+function closeCertificate() {
+    document.getElementById("modal").style.display = "none";
+}
+
+loadVolunteer();
+
+</script>
+
+</body>
+</html>
