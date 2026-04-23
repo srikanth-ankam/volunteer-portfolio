@@ -22,29 +22,46 @@ header {
     text-align: center;
     padding: 70px 20px 50px;
     color: white;
+    min-height: 300px;
 }
 
+/* CLEAN BACKGROUND IMAGE */
 header::before {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url('Banner2.jpg') center/cover no-repeat;
+    background: url('Banner2.jpg') center center / cover no-repeat;
     top: 0;
     left: 0;
+    z-index: 0;
 }
 
+/* LIGHT OVERLAY (FIXED – NO DARK SHADE) */
 header::after {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.2); /* lighter */
+    z-index: 0;
 }
 
+/* CONTENT ABOVE */
 header * {
     position: relative;
     z-index: 1;
+}
+
+/* GRADIENT NAME */
+.name-style {
+    font-size: 30px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff4d4d, #ff0000, #b30000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* PROFILE */
@@ -54,6 +71,7 @@ header * {
     border-radius: 50%;
     border: 4px solid white;
     object-fit: cover;
+    margin-top: 10px;
 }
 
 @media(min-width:768px){
@@ -139,7 +157,7 @@ button {
     object-fit: contain;
 }
 
-/* NAV */
+/* NAV BUTTONS */
 .nav {
     position: absolute;
     top: 50%;
@@ -156,6 +174,7 @@ button {
 .prev { left: 15px; }
 .next { right: 15px; }
 
+/* CLOSE */
 .close {
     position: absolute;
     right: 20px;
@@ -165,6 +184,7 @@ button {
     cursor: pointer;
 }
 
+/* INDICATOR */
 .indicator {
     position: absolute;
     bottom: 20px;
@@ -179,7 +199,7 @@ button {
 <body>
 
 <header>
-    <h2 id="name">Volunteer</h2>
+    <h2 id="name" class="name-style">Volunteer</h2>
     <p>Active Blood Donation Volunteer</p>
     <img id="photo" class="profile-img">
     <p><b>Inspiring donors • Saving lives • Building community</b></p>
@@ -224,7 +244,6 @@ button {
 
 <script>
 
-// CLEAN DATA STRUCTURE
 const volunteers = {
     1: {
         name: "Gariga Lokesh",
@@ -286,7 +305,7 @@ function loadVolunteer() {
     });
 }
 
-// SLIDER
+/* SLIDER */
 function showSlide() {
     document.getElementById("certImage").src = currentCertificates[currentIndex];
     document.getElementById("indicator").innerText =
@@ -314,7 +333,7 @@ function closeCertificate() {
     document.getElementById("modal").style.display = "none";
 }
 
-// SWIPE
+/* SWIPE SUPPORT */
 let startX = 0;
 
 document.addEventListener("touchstart", e => {
