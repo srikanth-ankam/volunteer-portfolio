@@ -29,10 +29,9 @@ header::before {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url('Blood _Donation_Banner.jpeg') center/cover;
+    background: url('Blood _Donation_Banner.jpg') center/cover;
     top: 0;
     left: 0;
-    z-index: 0;
 }
 
 header::after {
@@ -40,14 +39,9 @@ header::after {
     position: absolute;
     width: 100%;
     height: 100%;
+    background: linear-gradient(135deg, rgba(179,0,0,0.7), rgba(255,77,77,0.7));
     top: 0;
     left: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(179,0,0,0.7),
-        rgba(255,77,77,0.7)
-    );
-    z-index: 0;
 }
 
 header * {
@@ -63,7 +57,6 @@ header * {
     border: 5px solid white;
     object-fit: cover;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    margin-top: 10px;
 }
 
 /* CONTAINER */
@@ -73,7 +66,7 @@ header * {
     padding: 20px;
 }
 
-/* CARD (GLASS EFFECT) */
+/* CARD */
 .card {
     background: rgba(255,255,255,0.75);
     backdrop-filter: blur(12px);
@@ -81,11 +74,6 @@ header * {
     padding: 25px;
     margin: 20px 0;
     box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
 }
 
 /* STATS */
@@ -93,24 +81,17 @@ header * {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
+    text-align: center;
 }
 
 .stat-box {
     background: white;
     border-radius: 12px;
     padding: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    transition: 0.3s;
-}
-
-.stat-box:hover {
-    transform: scale(1.05);
 }
 
 .stat-box h3 {
     color: #ff4d4d;
-    font-size: 26px;
-    margin: 5px 0;
 }
 
 /* BUTTON */
@@ -121,12 +102,6 @@ button {
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.05);
 }
 
 /* MODAL */
@@ -137,29 +112,44 @@ button:hover {
     height: 100%;
     background: rgba(0,0,0,0.95);
     top: 0;
+    left: 0;
 }
 
-.modal img {
-    display: block;
+/* SLIDER CONTAINER */
+.slider-container {
+    position: relative;
+    max-width: 800px;
     margin: auto;
-    max-width: 85%;
-    margin-top: 60px;
-    border-radius: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
 }
 
-/* SLIDER */
-.slider-btn {
+/* IMAGE */
+.slide {
+    width: 100%;
+    border-radius: 12px;
+    transition: opacity 0.4s ease;
+}
+
+/* NAV BUTTONS */
+.nav {
     position: absolute;
     top: 50%;
-    font-size: 40px;
+    transform: translateY(-50%);
+    font-size: 28px;
+    background: rgba(255,255,255,0.2);
+    border: none;
     color: white;
+    padding: 12px;
     cursor: pointer;
-    padding: 10px;
+    border-radius: 50%;
 }
 
-.prev { left: 20px; }
-.next { right: 20px; }
+.prev { left: -60px; }
+.next { right: -60px; }
 
+/* CLOSE */
 .close {
     position: absolute;
     right: 30px;
@@ -167,6 +157,12 @@ button:hover {
     font-size: 30px;
     color: white;
     cursor: pointer;
+}
+
+/* INDICATOR */
+.indicator {
+    margin-top: 15px;
+    color: white;
 }
 
 </style>
@@ -186,8 +182,8 @@ button:hover {
 <div class="card">
     <h2>Impact Overview</h2>
     <div class="stats">
-        <div class="stat-box"><h3 id="donors">0</h3><p>Donors Brought</p></div>
-        <div class="stat-box"><h3 id="lives">0</h3><p>Lives Saved</p></div>
+        <div class="stat-box"><h3 id="donors">0</h3><p>Donors</p></div>
+        <div class="stat-box"><h3 id="lives">0</h3><p>Lives</p></div>
         <div class="stat-box"><h3 id="hospitals">0</h3><p>Hospitals</p></div>
         <div class="stat-box"><h3 id="camps">0</h3><p>Camps</p></div>
         <div class="stat-box"><h3 id="emergency">0</h3><p>Emergency</p></div>
@@ -196,7 +192,7 @@ button:hover {
 </div>
 
 <div class="card">
-    <h2>Analytics Dashboard</h2>
+    <h2>Analytics</h2>
     <canvas id="impactChart"></canvas>
 </div>
 
@@ -209,20 +205,29 @@ button:hover {
 <!-- MODAL -->
 <div id="modal" class="modal">
     <span class="close" onclick="closeCertificate()">×</span>
-    <span class="slider-btn prev" onclick="prevSlide()">❮</span>
-    <img id="certImage">
-    <span class="slider-btn next" onclick="nextSlide()">❯</span>
+
+    <div class="slider-container">
+        <button class="nav prev" onclick="prevSlide()">❮</button>
+
+        <img id="certImage" class="slide">
+
+        <button class="nav next" onclick="nextSlide()">❯</button>
+
+        <div id="indicator" class="indicator"></div>
+    </div>
 </div>
 
 <script>
 
-// SAME JS (unchanged logic)
 const volunteers = {
     1: {
         name: "Gariga Lokesh",
         donors: 25, lives: 100, hospitals: 4, camps: 5, emergency: 12, motivated: 40,
         photo: "Gariga_Lokesh_Photo.jpeg",
-        certificates: ["Gariga Lokesh_Appreciation.jpg","Gariga_Lokesh_Active _Donor_Appreciation.png"]
+        certificates: [
+            "Gariga Lokesh_Appreciation.jpg",
+            "Gariga_Lokesh_Active _Donor_Appreciation.png"
+        ]
     }
 };
 
@@ -274,15 +279,26 @@ function loadVolunteer() {
     currentCertificates = v.certificates;
 }
 
+/* SMOOTH SLIDER */
+function showSlide() {
+    const img = document.getElementById("certImage");
+
+    img.style.opacity = 0;
+
+    setTimeout(() => {
+        img.src = currentCertificates[currentIndex];
+        img.style.opacity = 1;
+    }, 200);
+
+    document.getElementById("indicator").innerText =
+        (currentIndex + 1) + " / " + currentCertificates.length;
+}
+
 function openCertificate() {
     if (!currentCertificates.length) return;
     currentIndex = 0;
     showSlide();
     document.getElementById("modal").style.display = "block";
-}
-
-function showSlide() {
-    document.getElementById("certImage").src = currentCertificates[currentIndex];
 }
 
 function nextSlide() {
