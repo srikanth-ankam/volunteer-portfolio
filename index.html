@@ -20,26 +20,36 @@ body {
 header {
     position: relative;
     text-align: center;
-    padding: 60px 15px;
+    padding: 70px 20px 50px;
     color: white;
+    overflow: hidden;
 }
 
+/* CLEAN BACKGROUND IMAGE */
 header::before {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url('Blood _Donation_Banner.jpg') center/cover;
+    background: url('Blood _Donation_Banner.jpg') center/cover no-repeat;
+    top: 0;
+    left: 0;
+    z-index: 0;
 }
 
+/* DARK OVERLAY (NOT FADED) */
 header::after {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(179,0,0,0.85), rgba(255,77,77,0.85));
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.4); /* CLEAN readable overlay */
+    z-index: 0;
 }
 
+/* CONTENT ABOVE */
 header * {
     position: relative;
     z-index: 1;
@@ -47,8 +57,8 @@ header * {
 
 /* PROFILE */
 .profile-img {
-    width: 110px;
-    height: 110px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     border: 4px solid white;
     object-fit: cover;
@@ -56,9 +66,9 @@ header * {
 
 /* DESKTOP PROFILE */
 @media(min-width:768px){
-    .profile-img{
-        width:140px;
-        height:140px;
+    .profile-img {
+        width: 150px;
+        height: 150px;
     }
 }
 
@@ -71,11 +81,12 @@ header * {
 
 /* CARD */
 .card {
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.9);
     backdrop-filter: blur(10px);
-    border-radius: 14px;
-    padding: 18px;
-    margin: 15px 0;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 /* STATS */
@@ -83,47 +94,38 @@ header * {
     display: grid;
     grid-template-columns: repeat(2,1fr);
     gap: 12px;
+    text-align: center;
 }
 
-/* DESKTOP GRID */
 @media(min-width:768px){
-    .stats{
+    .stats {
         grid-template-columns: repeat(3,1fr);
     }
 }
 
 .stat-box {
     background: white;
-    border-radius: 10px;
-    padding: 12px;
-    text-align:center;
+    border-radius: 12px;
+    padding: 15px;
 }
 
 .stat-box h3 {
     color: #ff4d4d;
-    font-size: 20px;
+    margin: 5px 0;
 }
 
 /* BUTTON */
 button {
     background: linear-gradient(135deg, #b30000, #ff4d4d);
     color: white;
-    padding: 12px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 25px;
-    width: 100%;
-    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-/* DESKTOP BUTTON */
-@media(min-width:768px){
-    button{
-        width:auto;
-        padding:12px 20px;
-    }
-}
-
-/* ===== FULLSCREEN MODAL ===== */
+/* FULLSCREEN MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -147,8 +149,9 @@ button {
 /* IMAGE */
 .viewer img {
     max-width: 95%;
-    max-height: 90%;
+    max-height: 95%;
     object-fit: contain;
+    border-radius: 10px;
 }
 
 /* NAV BUTTONS */
@@ -156,37 +159,32 @@ button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 28px;
+    font-size: 35px;
     color: white;
     background: rgba(255,255,255,0.2);
     border: none;
-    padding: 10px;
+    padding: 12px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
-/* MOBILE POSITION */
-.prev { left: 10px; }
-.next { right: 10px; }
-
-/* DESKTOP POSITION */
-@media(min-width:768px){
-    .prev { left: 30px; }
-    .next { right: 30px; }
-}
+.prev { left: 15px; }
+.next { right: 15px; }
 
 /* CLOSE */
 .close {
     position: absolute;
-    right: 15px;
+    right: 20px;
     top: 10px;
-    font-size: 28px;
+    font-size: 30px;
     color: white;
+    cursor: pointer;
 }
 
 /* INDICATOR */
 .indicator {
     position: absolute;
-    bottom: 15px;
+    bottom: 20px;
     width: 100%;
     text-align: center;
     color: white;
@@ -202,13 +200,13 @@ button {
     <h2 id="name">Volunteer</h2>
     <p>Active Blood Donation Volunteer</p>
     <img id="photo" class="profile-img">
-    <p><b>Inspiring donors • Saving lives</b></p>
+    <p><b>Inspiring donors • Saving lives • Building community</b></p>
 </header>
 
 <div class="container">
 
 <div class="card">
-    <h3>Impact</h3>
+    <h3>Impact Overview</h3>
     <div class="stats">
         <div class="stat-box"><h3 id="donors">0</h3><p>Donors</p></div>
         <div class="stat-box"><h3 id="lives">0</h3><p>Lives</p></div>
@@ -264,7 +262,7 @@ function getIdFromURL() {
     return new URLSearchParams(window.location.search).get("id");
 }
 
-// LOAD
+// LOAD DATA
 function loadVolunteer() {
     const v = volunteers[getIdFromURL()];
     if (!v) return;
@@ -292,10 +290,11 @@ function loadVolunteer() {
 function showSlide() {
     document.getElementById("certImage").src = currentCertificates[currentIndex];
     document.getElementById("indicator").innerText =
-        (currentIndex + 1) + "/" + currentCertificates.length;
+        (currentIndex + 1) + " / " + currentCertificates.length;
 }
 
 function openCertificate() {
+    if (!currentCertificates.length) return;
     currentIndex = 0;
     showSlide();
     document.getElementById("modal").style.display = "block";
@@ -315,7 +314,7 @@ function closeCertificate() {
     document.getElementById("modal").style.display = "none";
 }
 
-/* TOUCH SWIPE (MOBILE) */
+// SWIPE SUPPORT (MOBILE)
 let startX = 0;
 
 document.addEventListener("touchstart", e => {
@@ -325,8 +324,8 @@ document.addEventListener("touchstart", e => {
 document.addEventListener("touchend", e => {
     let endX = e.changedTouches[0].clientX;
 
-    if (startX - endX > 50) nextSlide();   // swipe left
-    if (endX - startX > 50) prevSlide();   // swipe right
+    if (startX - endX > 50) nextSlide();
+    if (endX - startX > 50) prevSlide();
 });
 
 loadVolunteer();
