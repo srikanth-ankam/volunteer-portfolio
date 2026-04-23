@@ -20,7 +20,7 @@ body {
 header {
     position: relative;
     text-align: center;
-    padding: 80px 20px 50px;
+    padding: 60px 15px;
     color: white;
 }
 
@@ -37,7 +37,7 @@ header::after {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(179,0,0,0.8), rgba(255,77,77,0.8));
+    background: linear-gradient(135deg, rgba(179,0,0,0.85), rgba(255,77,77,0.85));
 }
 
 header * {
@@ -47,57 +47,80 @@ header * {
 
 /* PROFILE */
 .profile-img {
-    width: 140px;
-    height: 140px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    border: 5px solid white;
+    border: 4px solid white;
     object-fit: cover;
+}
+
+/* DESKTOP PROFILE */
+@media(min-width:768px){
+    .profile-img{
+        width:140px;
+        height:140px;
+    }
 }
 
 /* CONTAINER */
 .container {
     max-width: 1100px;
     margin: auto;
-    padding: 20px;
+    padding: 15px;
 }
 
 /* CARD */
 .card {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.85);
     backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 25px;
-    margin: 20px 0;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-radius: 14px;
+    padding: 18px;
+    margin: 15px 0;
 }
 
 /* STATS */
 .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-    text-align: center;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+}
+
+/* DESKTOP GRID */
+@media(min-width:768px){
+    .stats{
+        grid-template-columns: repeat(3,1fr);
+    }
 }
 
 .stat-box {
     background: white;
-    border-radius: 12px;
-    padding: 15px;
+    border-radius: 10px;
+    padding: 12px;
+    text-align:center;
 }
 
 .stat-box h3 {
     color: #ff4d4d;
+    font-size: 20px;
 }
 
 /* BUTTON */
 button {
     background: linear-gradient(135deg, #b30000, #ff4d4d);
     color: white;
-    padding: 12px 20px;
+    padding: 12px;
     border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
+    border-radius: 25px;
+    width: 100%;
+    font-size: 16px;
+}
+
+/* DESKTOP BUTTON */
+@media(min-width:768px){
+    button{
+        width:auto;
+        padding:12px 20px;
+    }
 }
 
 /* ===== FULLSCREEN MODAL ===== */
@@ -112,27 +135,20 @@ button {
     z-index: 999;
 }
 
-/* IMAGE WRAPPER */
+/* VIEWER */
 .viewer {
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
-/* CERTIFICATE IMAGE */
+/* IMAGE */
 .viewer img {
     max-width: 95%;
-    max-height: 95%;
+    max-height: 90%;
     object-fit: contain;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-}
-
-/* ZOOM EFFECT */
-.viewer img:hover {
-    transform: scale(1.02);
 }
 
 /* NAV BUTTONS */
@@ -140,36 +156,41 @@ button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 40px;
+    font-size: 28px;
     color: white;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.2);
     border: none;
-    padding: 12px 16px;
-    cursor: pointer;
+    padding: 10px;
     border-radius: 50%;
 }
 
-.prev { left: 20px; }
-.next { right: 20px; }
+/* MOBILE POSITION */
+.prev { left: 10px; }
+.next { right: 10px; }
 
-/* CLOSE BUTTON */
+/* DESKTOP POSITION */
+@media(min-width:768px){
+    .prev { left: 30px; }
+    .next { right: 30px; }
+}
+
+/* CLOSE */
 .close {
     position: absolute;
-    right: 25px;
-    top: 15px;
-    font-size: 35px;
+    right: 15px;
+    top: 10px;
+    font-size: 28px;
     color: white;
-    cursor: pointer;
 }
 
 /* INDICATOR */
 .indicator {
     position: absolute;
-    bottom: 20px;
+    bottom: 15px;
     width: 100%;
     text-align: center;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 </style>
@@ -178,16 +199,16 @@ button {
 <body>
 
 <header>
-    <h1 id="name">Volunteer</h1>
+    <h2 id="name">Volunteer</h2>
     <p>Active Blood Donation Volunteer</p>
     <img id="photo" class="profile-img">
-    <p><b>Inspiring donors • Saving lives • Building community</b></p>
+    <p><b>Inspiring donors • Saving lives</b></p>
 </header>
 
 <div class="container">
 
 <div class="card">
-    <h2>Impact Overview</h2>
+    <h3>Impact</h3>
     <div class="stats">
         <div class="stat-box"><h3 id="donors">0</h3><p>Donors</p></div>
         <div class="stat-box"><h3 id="lives">0</h3><p>Lives</p></div>
@@ -199,7 +220,6 @@ button {
 </div>
 
 <div class="card">
-    <h2>Analytics</h2>
     <canvas id="impactChart"></canvas>
 </div>
 
@@ -209,10 +229,9 @@ button {
 
 </div>
 
-<!-- FULLSCREEN VIEWER -->
+<!-- MODAL -->
 <div id="modal" class="modal">
     <span class="close" onclick="closeCertificate()">×</span>
-
     <button class="nav prev" onclick="prevSlide()">❮</button>
     <button class="nav next" onclick="nextSlide()">❯</button>
 
@@ -225,6 +244,7 @@ button {
 
 <script>
 
+// DATA
 const volunteers = {
     1: {
         name: "Gariga Lokesh",
@@ -244,29 +264,7 @@ function getIdFromURL() {
     return new URLSearchParams(window.location.search).get("id");
 }
 
-function animateValue(id, end) {
-    let start = 0;
-    let timer = setInterval(() => {
-        start++;
-        document.getElementById(id).innerText = start;
-        if (start >= end) clearInterval(timer);
-    }, 20);
-}
-
-let chart;
-function loadChart(v) {
-    if (chart) chart.destroy();
-
-    chart = new Chart(document.getElementById("impactChart"), {
-        type: "bar",
-        data: {
-            labels: ["Donors","Lives","Hospitals","Camps","Emergency","Motivated"],
-            datasets: [{ data: [v.donors,v.lives,v.hospitals,v.camps,v.emergency,v.motivated] }]
-        },
-        options: { plugins: { legend: { display:false } } }
-    });
-}
-
+// LOAD
 function loadVolunteer() {
     const v = volunteers[getIdFromURL()];
     if (!v) return;
@@ -274,26 +272,30 @@ function loadVolunteer() {
     document.getElementById("name").innerText = v.name;
     document.getElementById("photo").src = v.photo;
 
-    animateValue("donors", v.donors);
-    animateValue("lives", v.lives);
-    animateValue("hospitals", v.hospitals);
-    animateValue("camps", v.camps);
-    animateValue("emergency", v.emergency);
-    animateValue("motivated", v.motivated);
+    ["donors","lives","hospitals","camps","emergency","motivated"].forEach(key=>{
+        document.getElementById(key).innerText = v[key];
+    });
 
-    loadChart(v);
     currentCertificates = v.certificates;
+
+    new Chart(document.getElementById("impactChart"), {
+        type: "bar",
+        data: {
+            labels: ["Donors","Lives","Hospitals","Camps","Emergency","Motivated"],
+            datasets: [{ data: Object.values(v).slice(1,7) }]
+        },
+        options: { plugins: { legend: { display:false } } }
+    });
 }
 
-/* SLIDER */
+// SLIDER
 function showSlide() {
     document.getElementById("certImage").src = currentCertificates[currentIndex];
     document.getElementById("indicator").innerText =
-        (currentIndex + 1) + " / " + currentCertificates.length;
+        (currentIndex + 1) + "/" + currentCertificates.length;
 }
 
 function openCertificate() {
-    if (!currentCertificates.length) return;
     currentIndex = 0;
     showSlide();
     document.getElementById("modal").style.display = "block";
@@ -312,6 +314,20 @@ function prevSlide() {
 function closeCertificate() {
     document.getElementById("modal").style.display = "none";
 }
+
+/* TOUCH SWIPE (MOBILE) */
+let startX = 0;
+
+document.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e => {
+    let endX = e.changedTouches[0].clientX;
+
+    if (startX - endX > 50) nextSlide();   // swipe left
+    if (endX - startX > 50) prevSlide();   // swipe right
+});
 
 loadVolunteer();
 
