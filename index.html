@@ -208,12 +208,12 @@ button {
 <div class="card">
     <h3>Impact Overview</h3>
     <div class="stats">
-        <div class="stat-box"><h3 id="donors">0</h3><p>Donors</p></div>
-        <div class="stat-box"><h3 id="lives">0</h3><p>Lives</p></div>
-        <div class="stat-box"><h3 id="hospitals">0</h3><p>Hospitals</p></div>
-        <div class="stat-box"><h3 id="camps">0</h3><p>Camps</p></div>
-        <div class="stat-box"><h3 id="emergency">0</h3><p>Emergency</p></div>
-        <div class="stat-box"><h3 id="motivated">0</h3><p>Motivated</p></div>
+        <div class="stat-box"><h3 id="No. of Donations">0</h3><p>Donors</p></div>
+        <div class="stat-box"><h3 id="lives Saved">0</h3><p>Lives</p></div>
+        <div class="stat-box"><h3 id="Emergency cases">0</h3><p>Hospitals</p></div>
+        <div class="stat-box"><h3 id="Motivated">0</h3><p>Camps</p></div>
+        <div class="stat-box"><h3 id="Hospitals">0</h3><p>Emergency</p></div>
+        <div class="stat-box"><h3 id="Camps">0</h3><p>Motivated</p></div>
     </div>
 </div>
 
@@ -270,7 +270,7 @@ function loadVolunteer() {
     document.getElementById("name").innerText = v.name;
     document.getElementById("photo").src = v.photo;
 
-    ["donors","lives","hospitals","camps","emergency","motivated"].forEach(key=>{
+    ["No. of Donations","lives Saved","Emergency cases","Motivated","Hospitals","Camps"].forEach(key=>{
         document.getElementById(key).innerText = v[key];
     });
 
@@ -279,7 +279,7 @@ function loadVolunteer() {
     new Chart(document.getElementById("impactChart"), {
         type: "bar",
         data: {
-            labels: ["Donors","Lives","Hospitals","Camps","Emergency","Motivated"],
+            labels: ["No. of Donations","lives Saved","Emergency cases","Motivated","Hospitals","Camps"],
             datasets: [{ data: Object.values(v).slice(1,7) }]
         },
         options: { plugins: { legend: { display:false } } }
