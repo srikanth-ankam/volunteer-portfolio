@@ -19,85 +19,127 @@ body {
 /* HEADER */
 header {
     position: relative;
-    text-align: center;
-    padding: 70px 20px 50px;
-    color: white;
-    min-height: 300px;
+    min-height: 430px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 30px 20px;
 }
 
-/* CLEAN BACKGROUND IMAGE */
+/* BACKGROUND IMAGE */
 header::before {
     content: "";
     position: absolute;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: url('Banner2.jpg') center center / cover no-repeat;
-    top: 0;
-    left: 0;
     z-index: 0;
+    transform: scale(1.05);
 }
 
-/* LIGHT OVERLAY */
+/* PREMIUM OVERLAY */
 header::after {
     content: "";
     position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(0,0,0,0.2);
-    z-index: 0;
+    inset: 0;
+    background:
+    linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0.45)
+    );
+    z-index: 1;
 }
 
-/* CONTENT ABOVE */
-header * {
+/* HEADER CONTENT BOX */
+.header-content{
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    text-align: center;
+    background: rgba(255,255,255,0.10);
+    padding: 28px 22px;
+    border-radius: 28px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    max-width: 420px;
+    width: 100%;
 }
 
 /* GROUP LOGO */
 .group-logo{
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    margin-bottom: 12px;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
     border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    padding: 6px;
-    backdrop-filter: blur(5px);
-    border: 3px solid rgba(255,255,255,0.6);
+    background: white;
+    padding: 5px;
+    margin-bottom: 18px;
+    border: 3px solid rgba(255,255,255,0.8);
 }
 
-@media(min-width:768px){
-    .group-logo{
-        width: 110px;
-        height: 110px;
-    }
+/* PROFILE IMAGE */
+.profile-img {
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+    border: 5px solid white;
+    object-fit: cover;
+    margin-top: 5px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
 
-/* GRADIENT NAME */
+/* NAME */
 .name-style {
-    font-size: 30px;
-    font-weight: bold;
-    background: linear-gradient(90deg, #ff4d4d, #ff0000, #b30000);
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(
+        90deg,
+        #ffffff,
+        #ffe5e5,
+        #ffb3b3
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* PROFILE */
-.profile-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid white;
-    object-fit: cover;
-    margin-top: 10px;
+/* ROLE */
+.role-text{
+    margin-top: 8px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
-@media(min-width:768px){
-    .profile-img {
-        width: 150px;
-        height: 150px;
+/* TAGLINE */
+.tagline{
+    margin-top: 16px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.6;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    header{
+        min-height: 500px;
+    }
+
+    .header-content{
+        padding: 24px 18px;
+    }
+
+    .name-style{
+        font-size: 28px;
+    }
+
+    .profile-img{
+        width: 120px;
+        height: 120px;
     }
 }
 
@@ -110,18 +152,24 @@ header * {
 
 /* CARD */
 .card {
-    background: rgba(255,255,255,0.95);
-    border-radius: 16px;
-    padding: 20px;
-    margin: 20px 0;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.96);
+    border-radius: 18px;
+    padding: 22px;
+    margin: 22px 0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* CARD TITLE */
+.card h3{
+    margin-top: 0;
+    color: #b30000;
 }
 
 /* STATS */
 .stats {
     display: grid;
     grid-template-columns: repeat(2,1fr);
-    gap: 12px;
+    gap: 14px;
     text-align: center;
 }
 
@@ -131,31 +179,50 @@ header * {
     }
 }
 
+/* STAT BOX */
 .stat-box {
-    background: white;
-    border-radius: 12px;
-    padding: 15px;
+    background: linear-gradient(
+        135deg,
+        #fff,
+        #fff5f5
+    );
+    border-radius: 16px;
+    padding: 18px;
     transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
 .stat-box:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
 }
 
 .stat-box h3 {
-    color: #ff4d4d;
+    color: #ff3333;
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.stat-box p{
+    margin: 0;
+    color: #555;
 }
 
 /* BUTTON */
 button {
-    background: linear-gradient(135deg, #b30000, #ff4d4d);
+    background: linear-gradient(
+        135deg,
+        #b30000,
+        #ff4d4d
+    );
     color: white;
-    padding: 12px 20px;
+    padding: 13px 24px;
     border: none;
     border-radius: 30px;
     cursor: pointer;
     font-size: 16px;
     transition: 0.3s;
+    font-weight: 600;
+    box-shadow: 0 5px 14px rgba(255,0,0,0.25);
 }
 
 button:hover{
@@ -168,12 +235,13 @@ button:hover{
     position: fixed;
     width: 100%;
     height: 100%;
-    background: black;
+    background: rgba(0,0,0,0.95);
     top: 0;
     left: 0;
     z-index: 999;
 }
 
+/* VIEWER */
 .viewer {
     width: 100%;
     height: 100%;
@@ -186,6 +254,7 @@ button:hover{
     max-width: 95%;
     max-height: 95%;
     object-fit: contain;
+    border-radius: 12px;
 }
 
 /* NAV BUTTONS */
@@ -193,9 +262,9 @@ button:hover{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 35px;
+    font-size: 34px;
     color: white;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.18);
     border: none;
     padding: 12px;
     border-radius: 50%;
@@ -210,7 +279,7 @@ button:hover{
     position: absolute;
     right: 20px;
     top: 10px;
-    font-size: 30px;
+    font-size: 34px;
     color: white;
     cursor: pointer;
 }
@@ -232,86 +301,113 @@ button:hover{
 
 <header>
 
-    <!-- GROUP LOGO -->
-    <img src="group_logo.jpeg" alt="Group Logo" class="group-logo">
+    <div class="header-content">
 
-    <!-- PROFILE PHOTO -->
-    <img id="photo" class="profile-img">
+        <!-- GROUP LOGO -->
+        <img src="group_logo.jpeg"
+             alt="Group Logo"
+             class="group-logo">
 
-    <!-- NAME BELOW PHOTO -->
-    <h2 id="name" class="name-style">Volunteer</h2>
+        <!-- PROFILE PHOTO -->
+        <img id="photo"
+             class="profile-img">
 
-    <!-- ROLE BELOW NAME -->
-    <p>Active Blood Donation Volunteer</p>
+        <!-- NAME -->
+        <h2 id="name"
+            class="name-style">
+            Volunteer
+        </h2>
 
-    <p><b>Inspiring donors • Saving lives • Building community</b></p>
+        <!-- ROLE -->
+        <p class="role-text">
+            Active Blood Donation Volunteer
+        </p>
+
+        <!-- TAGLINE -->
+        <p class="tagline">
+            Inspiring donors • Saving lives •
+            Building a stronger community
+        </p>
+
+    </div>
 
 </header>
 
 <div class="container">
 
-<div class="card">
-    <h3>Impact Overview</h3>
+    <!-- IMPACT OVERVIEW -->
+    <div class="card">
 
-    <div class="stats">
+        <h3>Impact Overview</h3>
 
-        <div class="stat-box">
-            <h3 id="donations">0</h3>
-            <p>Donations</p>
-        </div>
+        <div class="stats">
 
-        <div class="stat-box">
-            <h3 id="lives">0</h3>
-            <p>Lives Saved</p>
-        </div>
+            <div class="stat-box">
+                <h3 id="donations">0</h3>
+                <p>Donations</p>
+            </div>
 
-        <div class="stat-box">
-            <h3 id="emergency">0</h3>
-            <p>Emergency Cases</p>
-        </div>
+            <div class="stat-box">
+                <h3 id="lives">0</h3>
+                <p>Lives Saved</p>
+            </div>
 
-        <div class="stat-box">
-            <h3 id="motivated">0</h3>
-            <p>Motivated</p>
-        </div>
+            <div class="stat-box">
+                <h3 id="emergency">0</h3>
+                <p>Emergency Cases</p>
+            </div>
 
-        <div class="stat-box">
-            <h3 id="hospitals">0</h3>
-            <p>Hospitals</p>
-        </div>
+            <div class="stat-box">
+                <h3 id="motivated">0</h3>
+                <p>People Motivated</p>
+            </div>
 
-        <div class="stat-box">
-            <h3 id="camps">0</h3>
-            <p>Camps</p>
+            <div class="stat-box">
+                <h3 id="hospitals">0</h3>
+                <p>Hospitals Helped</p>
+            </div>
+
+            <div class="stat-box">
+                <h3 id="camps">0</h3>
+                <p>Donation Camps</p>
+            </div>
+
         </div>
 
     </div>
-</div>
 
-<div class="card">
-    <canvas id="impactChart"></canvas>
-</div>
+    <!-- CHART -->
+    <div class="card">
+        <canvas id="impactChart"></canvas>
+    </div>
 
-<div class="card" style="text-align:center;">
-    <button onclick="openCertificate()">View Certificates</button>
-</div>
+    <!-- CERTIFICATES -->
+    <div class="card" style="text-align:center;">
+        <button onclick="openCertificate()">
+            View Certificates
+        </button>
+    </div>
 
 </div>
 
 <!-- MODAL -->
 <div id="modal" class="modal">
 
-    <span class="close" onclick="closeCertificate()">×</span>
+    <span class="close"
+          onclick="closeCertificate()">×</span>
 
-    <button class="nav prev" onclick="prevSlide()">❮</button>
+    <button class="nav prev"
+            onclick="prevSlide()">❮</button>
 
-    <button class="nav next" onclick="nextSlide()">❯</button>
+    <button class="nav next"
+            onclick="nextSlide()">❯</button>
 
     <div class="viewer">
         <img id="certImage">
     </div>
 
-    <div id="indicator" class="indicator"></div>
+    <div id="indicator"
+         class="indicator"></div>
 
 </div>
 
@@ -320,7 +416,9 @@ button:hover{
 const volunteers = {
 
     1: {
+
         name: "Gariga Lokesh",
+
         donations: 1,
         lives: 1,
         emergency: 1,
@@ -335,14 +433,16 @@ const volunteers = {
             "Gariga_Lokesh_Active _Donor_Appreciation.png"
         ]
     }
-
 };
 
 let currentCertificates = [];
 let currentIndex = 0;
 
 function getIdFromURL() {
-    return new URLSearchParams(window.location.search).get("id");
+
+    return new URLSearchParams(
+        window.location.search
+    ).get("id");
 }
 
 function loadVolunteer() {
@@ -351,16 +451,29 @@ function loadVolunteer() {
 
     if (!v) return;
 
-    document.getElementById("name").innerText = v.name;
+    document.getElementById("name").innerText =
+        v.name;
 
-    document.getElementById("photo").src = v.photo;
+    document.getElementById("photo").src =
+        v.photo;
 
-    document.getElementById("donations").innerText = v.donations;
-    document.getElementById("lives").innerText = v.lives;
-    document.getElementById("emergency").innerText = v.emergency;
-    document.getElementById("motivated").innerText = v.motivated;
-    document.getElementById("hospitals").innerText = v.hospitals;
-    document.getElementById("camps").innerText = v.camps;
+    document.getElementById("donations").innerText =
+        v.donations;
+
+    document.getElementById("lives").innerText =
+        v.lives;
+
+    document.getElementById("emergency").innerText =
+        v.emergency;
+
+    document.getElementById("motivated").innerText =
+        v.motivated;
+
+    document.getElementById("hospitals").innerText =
+        v.hospitals;
+
+    document.getElementById("camps").innerText =
+        v.camps;
 
     currentCertificates = v.certificates;
 
@@ -372,7 +485,7 @@ function loadVolunteer() {
 
             labels: [
                 "Donations",
-                "Lives",
+                "Lives Saved",
                 "Emergency",
                 "Motivated",
                 "Hospitals",
@@ -380,6 +493,7 @@ function loadVolunteer() {
             ],
 
             datasets: [{
+
                 data: [
                     v.donations,
                     v.lives,
@@ -395,7 +509,7 @@ function loadVolunteer() {
                     "#ff8080",
                     "#ff9999",
                     "#ffb3b3",
-                    "#ffcccc"
+                    "#ffd6d6"
                 ],
 
                 borderRadius: 10
@@ -407,12 +521,14 @@ function loadVolunteer() {
             responsive: true,
 
             plugins: {
+
                 legend: {
-                    display:false
+                    display: false
                 }
             },
 
             scales: {
+
                 y: {
                     beginAtZero: true
                 }
@@ -421,7 +537,7 @@ function loadVolunteer() {
     });
 }
 
-/* SLIDER */
+/* CERTIFICATE SLIDER */
 
 function showSlide() {
 
@@ -429,7 +545,9 @@ function showSlide() {
         currentCertificates[currentIndex];
 
     document.getElementById("indicator").innerText =
-        (currentIndex + 1) + " / " + currentCertificates.length;
+        (currentIndex + 1)
+        + " / "
+        + currentCertificates.length;
 }
 
 function openCertificate() {
@@ -440,13 +558,15 @@ function openCertificate() {
 
     showSlide();
 
-    document.getElementById("modal").style.display = "block";
+    document.getElementById("modal").style.display =
+        "block";
 }
 
 function nextSlide() {
 
     currentIndex =
-        (currentIndex + 1) % currentCertificates.length;
+        (currentIndex + 1)
+        % currentCertificates.length;
 
     showSlide();
 }
@@ -454,7 +574,8 @@ function nextSlide() {
 function prevSlide() {
 
     currentIndex =
-        (currentIndex - 1 + currentCertificates.length)
+        (currentIndex - 1 +
+        currentCertificates.length)
         % currentCertificates.length;
 
     showSlide();
@@ -462,24 +583,32 @@ function prevSlide() {
 
 function closeCertificate() {
 
-    document.getElementById("modal").style.display = "none";
+    document.getElementById("modal").style.display =
+        "none";
 }
 
 /* SWIPE SUPPORT */
 
 let startX = 0;
 
-document.addEventListener("touchstart", e => {
+document.addEventListener(
+    "touchstart",
+    e => {
+
     startX = e.touches[0].clientX;
 });
 
-document.addEventListener("touchend", e => {
+document.addEventListener(
+    "touchend",
+    e => {
 
     let endX = e.changedTouches[0].clientX;
 
-    if (startX - endX > 50) nextSlide();
+    if (startX - endX > 50)
+        nextSlide();
 
-    if (endX - startX > 50) prevSlide();
+    if (endX - startX > 50)
+        prevSlide();
 });
 
 loadVolunteer();
