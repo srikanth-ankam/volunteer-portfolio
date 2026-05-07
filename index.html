@@ -37,7 +37,7 @@ header::before {
     z-index: 0;
 }
 
-/* LIGHT OVERLAY (FIXED – NO DARK SHADE) */
+/* LIGHT OVERLAY */
 header::after {
     content: "";
     position: absolute;
@@ -45,7 +45,7 @@ header::after {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,0.2); /* lighter */
+    background: rgba(0,0,0,0.2);
     z-index: 0;
 }
 
@@ -53,6 +53,26 @@ header::after {
 header * {
     position: relative;
     z-index: 1;
+}
+
+/* GROUP LOGO */
+.group-logo{
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    padding: 6px;
+    backdrop-filter: blur(5px);
+    border: 3px solid rgba(255,255,255,0.6);
+}
+
+@media(min-width:768px){
+    .group-logo{
+        width: 110px;
+        height: 110px;
+    }
 }
 
 /* GRADIENT NAME */
@@ -115,6 +135,11 @@ header * {
     background: white;
     border-radius: 12px;
     padding: 15px;
+    transition: 0.3s;
+}
+
+.stat-box:hover {
+    transform: translateY(-4px);
 }
 
 .stat-box h3 {
@@ -129,6 +154,12 @@ button {
     border: none;
     border-radius: 30px;
     cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+button:hover{
+    transform: scale(1.05);
 }
 
 /* MODAL */
@@ -191,6 +222,7 @@ button {
     width: 100%;
     text-align: center;
     color: white;
+    font-size: 18px;
 }
 
 </style>
@@ -199,23 +231,57 @@ button {
 <body>
 
 <header>
+
+    <!-- GROUP LOGO -->
+    <img src="group_logo.png" alt="Group Logo" class="group-logo">
+
     <h2 id="name" class="name-style">Volunteer</h2>
+
     <p>Active Blood Donation Volunteer</p>
+
     <img id="photo" class="profile-img">
+
     <p><b>Inspiring donors • Saving lives • Building community</b></p>
+
 </header>
 
 <div class="container">
 
 <div class="card">
     <h3>Impact Overview</h3>
+
     <div class="stats">
-        <div class="stat-box"><h3 id="donations">0</h3><p>Donations</p></div>
-        <div class="stat-box"><h3 id="lives">0</h3><p>Lives Saved</p></div>
-        <div class="stat-box"><h3 id="emergency">0</h3><p>Emergency Cases</p></div>
-        <div class="stat-box"><h3 id="motivated">0</h3><p>Motivated</p></div>
-        <div class="stat-box"><h3 id="hospitals">0</h3><p>Hospitals</p></div>
-        <div class="stat-box"><h3 id="camps">0</h3><p>Camps</p></div>
+
+        <div class="stat-box">
+            <h3 id="donations">0</h3>
+            <p>Donations</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 id="lives">0</h3>
+            <p>Lives Saved</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 id="emergency">0</h3>
+            <p>Emergency Cases</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 id="motivated">0</h3>
+            <p>Motivated</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 id="hospitals">0</h3>
+            <p>Hospitals</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 id="camps">0</h3>
+            <p>Camps</p>
+        </div>
+
     </div>
 </div>
 
@@ -231,8 +297,11 @@ button {
 
 <!-- MODAL -->
 <div id="modal" class="modal">
+
     <span class="close" onclick="closeCertificate()">×</span>
+
     <button class="nav prev" onclick="prevSlide()">❮</button>
+
     <button class="nav next" onclick="nextSlide()">❯</button>
 
     <div class="viewer">
@@ -240,11 +309,13 @@ button {
     </div>
 
     <div id="indicator" class="indicator"></div>
+
 </div>
 
 <script>
 
 const volunteers = {
+
     1: {
         name: "Gariga Lokesh",
         donations: 1,
@@ -253,12 +324,15 @@ const volunteers = {
         motivated: 5,
         hospitals: 0,
         camps: 0,
+
         photo: "Gariga_Lokesh_Photo.jpeg",
+
         certificates: [
             "Gariga Lokesh_Appreciation.jpg",
             "Gariga_Lokesh_Active _Donor_Appreciation.png"
         ]
     }
+
 };
 
 let currentCertificates = [];
@@ -269,10 +343,13 @@ function getIdFromURL() {
 }
 
 function loadVolunteer() {
+
     const v = volunteers[getIdFromURL()];
+
     if (!v) return;
 
     document.getElementById("name").innerText = v.name;
+
     document.getElementById("photo").src = v.photo;
 
     document.getElementById("donations").innerText = v.donations;
@@ -285,9 +362,20 @@ function loadVolunteer() {
     currentCertificates = v.certificates;
 
     new Chart(document.getElementById("impactChart"), {
+
         type: "bar",
+
         data: {
-            labels: ["Donations","Lives","Emergency","Motivated","Hospitals","Camps"],
+
+            labels: [
+                "Donations",
+                "Lives",
+                "Emergency",
+                "Motivated",
+                "Hospitals",
+                "Camps"
+            ],
+
             datasets: [{
                 data: [
                     v.donations,
@@ -296,44 +384,86 @@ function loadVolunteer() {
                     v.motivated,
                     v.hospitals,
                     v.camps
-                ]
+                ],
+
+                backgroundColor: [
+                    "#ff4d4d",
+                    "#ff6666",
+                    "#ff8080",
+                    "#ff9999",
+                    "#ffb3b3",
+                    "#ffcccc"
+                ],
+
+                borderRadius: 10
             }]
         },
+
         options: {
-            plugins: { legend: { display:false } }
+
+            responsive: true,
+
+            plugins: {
+                legend: {
+                    display:false
+                }
+            },
+
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
     });
 }
 
 /* SLIDER */
+
 function showSlide() {
-    document.getElementById("certImage").src = currentCertificates[currentIndex];
+
+    document.getElementById("certImage").src =
+        currentCertificates[currentIndex];
+
     document.getElementById("indicator").innerText =
         (currentIndex + 1) + " / " + currentCertificates.length;
 }
 
 function openCertificate() {
+
     if (!currentCertificates.length) return;
+
     currentIndex = 0;
+
     showSlide();
+
     document.getElementById("modal").style.display = "block";
 }
 
 function nextSlide() {
-    currentIndex = (currentIndex + 1) % currentCertificates.length;
+
+    currentIndex =
+        (currentIndex + 1) % currentCertificates.length;
+
     showSlide();
 }
 
 function prevSlide() {
-    currentIndex = (currentIndex - 1 + currentCertificates.length) % currentCertificates.length;
+
+    currentIndex =
+        (currentIndex - 1 + currentCertificates.length)
+        % currentCertificates.length;
+
     showSlide();
 }
 
 function closeCertificate() {
+
     document.getElementById("modal").style.display = "none";
 }
 
 /* SWIPE SUPPORT */
+
 let startX = 0;
 
 document.addEventListener("touchstart", e => {
@@ -341,9 +471,11 @@ document.addEventListener("touchstart", e => {
 });
 
 document.addEventListener("touchend", e => {
+
     let endX = e.changedTouches[0].clientX;
 
     if (startX - endX > 50) nextSlide();
+
     if (endX - startX > 50) prevSlide();
 });
 
