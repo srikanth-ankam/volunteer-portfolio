@@ -51,6 +51,29 @@ header::after {
     z-index: 1;
 }
 
+/* GROUP LOGO */
+.group-logo{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+    width: 75px;
+    height: 75px;
+
+    object-fit: cover;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.95);
+    padding: 5px;
+
+    border: 3px solid white;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.25);
+
+    z-index: 5;
+}
+
 /* HEADER CONTENT BOX */
 .header-content{
     position: relative;
@@ -64,18 +87,6 @@ header::after {
     box-shadow: 0 8px 30px rgba(0,0,0,0.25);
     max-width: 420px;
     width: 100%;
-}
-
-/* GROUP LOGO */
-.group-logo{
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 50%;
-    background: white;
-    padding: 5px;
-    margin-bottom: 18px;
-    border: 3px solid rgba(255,255,255,0.8);
 }
 
 /* PROFILE IMAGE */
@@ -140,6 +151,14 @@ header::after {
     .profile-img{
         width: 120px;
         height: 120px;
+    }
+
+    .group-logo{
+        width: 65px;
+        height: 65px;
+
+        top: 15px;
+        left: 15px;
     }
 }
 
@@ -301,12 +320,12 @@ button:hover{
 
 <header>
 
-    <div class="header-content">
+    <!-- GROUP LOGO -->
+    <img src="group_logo.jpeg"
+         alt="Group Logo"
+         class="group-logo">
 
-        <!-- GROUP LOGO -->
-        <img src="group_logo.jpeg"
-             alt="Group Logo"
-             class="group-logo">
+    <div class="header-content">
 
         <!-- PROFILE PHOTO -->
         <img id="photo"
